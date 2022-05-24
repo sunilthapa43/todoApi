@@ -25,6 +25,8 @@ class ListTodo(generics.ListAPIView):
             msg = f'successfully added {title}'
             return Response({'message': msg})
 
+            #serializer.save()
+
        
 
 """class DetailsTodo(generics.ListAPIView):
