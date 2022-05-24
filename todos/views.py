@@ -1,16 +1,31 @@
-from django.http import Http404
+import imp
+from xmlrpc.client import ResponseError
+from django.http import Http404, HttpResponse
 from .models import Todo
 from .serializers import TodoSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .models import Todo
 # Create your views here.
 
 
 class ListTodo(generics.ListAPIView):
     queryset =  Todo.objects.all()
     serializer_class =  TodoSerializer
+    
 
+    def post(self,request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            
+            title =  serializer.validated_data.get('title')
+            body =  serializer.validated_data.get('body')
+            Todo.objects.create(title = title , body = body )
+            msg = f'successfully added {title}'
+            return Response({'message': msg})
+
+       
 
 """class DetailsTodo(generics.ListAPIView):
   
@@ -31,3 +46,12 @@ class DetailsTodo(APIView):
         snippet = self.get_object(pk)
         serializer = TodoSerializer(snippet)
         return Response(serializer.data)
+
+
+    
+    def put(self, request, pk= None):
+        return Response({'method': 'PUT'})
+    
+    def delete(self, request, pk= None):
+        return Response({'method': 'DELETE'})
+        
