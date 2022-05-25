@@ -34,7 +34,7 @@ class ListTodo(generics.ListAPIView):
     queryset =  Todo.objects.all()
     lookup_field = 'pk'
     serializer_class = TodoSerializer""" # so with accordance to the documentation generic views shall work with this chunk of code but there some problem with the views i guess so i had to use a class based views as alternative 
-
+    # I later realized that the problem was not with the documentation but it was actually retreiveAPIView  foolofme haha 
 class DetailsTodo(APIView):
 
     def get_object(self,pk):
